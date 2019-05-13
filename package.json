@@ -1,6 +1,6 @@
 {
   "name": "pwainit",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Initiate your Progressive Web App development with npm install -g pwainit",
   "main": "index.js",
   "scripts": {
@@ -20,11 +20,13 @@
   },
   "homepage": "https://github.com/saurabhdaware/pwainit#readme",
   "preferGlobal": true,
-  "bin": "./index.js",
-  "dependencies": {},
-  "devDependencies": {
+  "bin": {
+    "pwainit": "index.js"
+  },
+  "dependencies": {
     "commander": "^2.20.0",
     "fs-extra": "^8.0.0",
     "inquirer": "^6.3.1"
-  }
+  },
+  "devDependencies": {}
 }

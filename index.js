@@ -169,6 +169,10 @@ program
 
 // Functions
 function createProject(projectName){
+    if(!projectName){
+        console.log("Err: Please enter project name (E.g 'pwainit coolproject' )");
+        return;
+    }
     if(projectName == '.'){
         questions = [
             {
