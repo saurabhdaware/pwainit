@@ -1,6 +1,6 @@
 {
   "name": "pwainit",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Initiate your Progressive Web App development with npm install -g pwainit",
   "main": "index.js",
   "scripts": {
