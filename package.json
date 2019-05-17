@@ -1,6 +1,6 @@
 {
   "name": "pwainit",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "Initiate your Progressive Web App development with npm install -g pwainit",
   "main": "dist/index.js",
   "scripts": {
@@ -11,7 +11,11 @@
     "url": "git+https://github.com/saurabhdaware/pwainit.git"
   },
   "keywords": [
-    "pwainit"
+    "pwainit",
+    "pwa-init",
+    "pwa",
+    "webapps",
+    "init-pwa"
   ],
   "author": "Saurabh Daware",
   "license": "MIT",
