@@ -4,7 +4,10 @@
   "description": "Initiate your Progressive Web App development with npm install -g pwainit",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pwainit": "node src/index.js",
+    "dev": "node src/index.js",
+    "build": "node build/build.js || echo \"Only npm publisher can build project\""
   },
   "repository": {
     "type": "git",
