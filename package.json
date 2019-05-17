@@ -2,7 +2,7 @@
   "name": "pwainit",
   "version": "1.0.5",
   "description": "Initiate your Progressive Web App development with npm install -g pwainit",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,7 +21,7 @@
   "homepage": "https://github.com/saurabhdaware/pwainit#readme",
   "preferGlobal": true,
   "bin": {
-    "pwainit": "index.js"
+    "pwainit": "dist/index.js"
   },
   "dependencies": {
     "commander": "^2.20.0",
