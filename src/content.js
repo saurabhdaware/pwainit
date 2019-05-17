@@ -3,7 +3,8 @@ class Content{
         this.projectName = projectName;
         this.ans = ans;
     }
-
+    
+    // content of index.html
     index(){
         return `
 <!DOCTYPE html>
