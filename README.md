@@ -34,7 +34,7 @@ Currently the module adds Service Workers and Manifest
 
 
 ## Contribution 
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/saurabhdaware/pwainit/issues)
 
 - This project is open for contributions you can pick up a task from [Issues](https://github.com/saurabhdaware/pwainit/issues) or Work on a new feature.
 - Read [CONTRIBUTING.md](http://github.com/saurabhdaware/pwainit/blob/master/CONTRIBUTING.md) for complete guide of Contribution and Local Development.
