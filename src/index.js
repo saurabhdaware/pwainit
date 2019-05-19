@@ -4,6 +4,7 @@ const program = require('commander');
 const fse = require('fs-extra');
 const inquirer = require('inquirer');
 const Content = require('./content.js');
+const logos = require('./logo.js')
 
 let questions = [
     {
@@ -78,17 +79,15 @@ function createProject(projectName){
             })
             .catch(console.error);
 
-      
-        fse.copy('./dist/assets/logo-192.png', `${projectName}/assets/logo-192.png`)
+        
+        fse.outputFile(`${projectName}/assets/logo-192.png`,logos.logo192, 'base64')
             .then(() => console.log(`.....Created ${projectName}/assets/logo-192.png`))
             .catch(console.error);
-        
-        fse.copy('./dist/assets/logo-512.png', `${projectName}/assets/logo-512.png`)
+      
+        fse.outputFile(`${projectName}/assets/logo-512.png`,logos.logo512, 'base64')
             .then(() => console.log(`.....Created ${projectName}/assets/logo-512.png`))
-            .catch(console.error);
-            
+            .catch(console.error);  
            
-
         if(ans.features.includes('Manifest')){ 
             fse.outputFile(`${projectName}/manifest.json`,content.manifest())
                 .then(() => {

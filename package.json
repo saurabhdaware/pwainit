@@ -1,6 +1,6 @@
 {
   "name": "pwainit",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "Initiate your Progressive Web App development with npm install -g pwainit",
   "main": "dist/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "webapps",
     "init-pwa"
   ],
-  "author": "Saurabh Daware",
+  "author": "Saurabh Daware <saurabhdaware99@gmail.com> (https://saurabhdaware.in)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/saurabhdaware/pwainit/issues"
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "commander": "^2.20.0",
-    "fs-extra": "^8.0.0",
+    "fs-extra": "^8.0.1",
     "inquirer": "^6.3.1"
   },
   "devDependencies": {}
