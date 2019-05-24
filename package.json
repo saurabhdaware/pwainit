@@ -1,13 +1,13 @@
 {
   "name": "pwainit",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Initiate your Progressive Web App development with npm install -g pwainit",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pwainit": "node src/index.js",
     "dev": "node src/index.js",
-    "build": "node build/build.js || echo \"Only npm publisher can build project\""
+    "build": "node build/build.js"
   },
   "repository": {
     "type": "git",

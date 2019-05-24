@@ -55,7 +55,7 @@ function writeFile(path,content,options){
             return Promise.resolve('update');
         }else{
             console.log(`Err: Could not create ${path}, Already exist.`)
-            return Promise.reject(`Err: Could not create ${path}, Already exist.`);
+            return;
         }
     }
 
