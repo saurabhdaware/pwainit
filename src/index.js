@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 'use strict'
 const program = require('commander');
+const configs = require('../package.json')
 const fse = require('fs-extra');
 const inquirer = require('inquirer');
 const Content = require('./content.js');
-const logos = require('./logo.js')
+const logos = require('./logos.js')
+    
 
 let questions = [
     {
@@ -35,9 +37,9 @@ let questions = [
 ]
 
 
-
+// Main command line settings
 program
-    .version('1.0.0')
+    .version(configs.version)
     .usage('[options] [projectName]')
     .arguments('[projectName]')
     .action(createProject)
@@ -45,11 +47,33 @@ program
 
 
 // Functions
+
+function writeFile(path,content,options){
+    if (fse.existsSync(path)) {
+        if(path.slice(-10) == 'index.html'){
+            // If the index file exists then we want to update it and add content to its existing content
+            return Promise.resolve('update');
+        }else{
+            console.log(`Err: Could not create ${path}, Already exist.`)
+            return Promise.reject(`Err: Could not create ${path}, Already exist.`);
+        }
+    }
+
+    return fse.outputFile(path,content,options)
+        .then(() => {
+            console.log(`.....Created ${path}`)
+        })
+        .catch(console.error);
+}
+
+
+
 function createProject(projectName){
     if(!projectName){
         console.log("Err: Please enter project name (E.g 'pwainit coolproject' )");
         return;
     }
+
     if(projectName == '.'){
         questions = [
             {
@@ -71,37 +95,28 @@ function createProject(projectName){
             return;
         }
 
-        // Main stuff goes here
         let content = new Content(projectName,ans); // Content class comes from ./content.js
-        fse.outputFile(`${projectName}/index.html`,content.index())
-            .then(() => {
-                console.log(`.....Created ${projectName}/index.html`)
-            })
-            .catch(console.error);
-
         
-        fse.outputFile(`${projectName}/assets/logo-192.png`,logos.logo192, 'base64')
-            .then(() => console.log(`.....Created ${projectName}/assets/logo-192.png`))
-            .catch(console.error);
-      
-        fse.outputFile(`${projectName}/assets/logo-512.png`,logos.logo512, 'base64')
-            .then(() => console.log(`.....Created ${projectName}/assets/logo-512.png`))
-            .catch(console.error);  
-           
+        // Main stuff goes here
+        writeFile(`${projectName}/index.html`,content.index()).then((msg) => {
+            if(msg == 'update'){
+                fse.readFile(`${projectName}/index.html`,'utf8')
+                    .then((html)=>{
+                        return fse.outputFile(`${projectName}/index.html`,content.updatedIndexContent(html))
+                    })
+                    .then(() => console.log(`.....Updated ${projectName}/index.html`))
+            }
+        })
+
+        writeFile(`${projectName}/assets/logo-192.png`,logos.logo192, 'base64');
+        writeFile(`${projectName}/assets/logo-512.png`,logos.logo512, 'base64');
+    
         if(ans.features.includes('Manifest')){ 
-            fse.outputFile(`${projectName}/manifest.json`,content.manifest())
-                .then(() => {
-                    console.log(`.....Created ${projectName}/manifest.json`);
-                })
-                .catch(console.error);
+            writeFile(`${projectName}/manifest.json`,content.manifest());
         }
 
         if(ans.features.includes('Service Worker')){
-            fse.outputFile(`${projectName}/sw.js`,content.serviceWorker())
-                .then(() => {
-                    console.log(`.....Created ${projectName}/sw.js`);
-                })
-                .catch(console.error);
+            writeFile(`${projectName}/sw.js`,content.serviceWorker());
         }
 
         

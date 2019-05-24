@@ -13,6 +13,8 @@ Currently the module adds Service Workers and Manifest
 - `npm i -g pwainit`
 - `pwainit <projectName>`  
 - Select the features that you want in your PWA. 
+- You can also update existing index.html by typing the name of existing folder
+- To initialize into same directory use `pwainit .`
 
 
 ## What after pwainit?
