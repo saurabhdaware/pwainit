@@ -1,3 +1,6 @@
+function isPresentInHead(headHtml,property,value){
+    return headHtml.includes(`${property}="${value}"`) || headHtml.includes(`${property}="${value}"`)
+}  
 class Content{
     constructor(projectName,ans){
         this.projectName = projectName;
@@ -79,10 +82,11 @@ class Content{
     // This function is called when index.html is already present in the project.
     // This function would take the current content and will put PWA content into it without removing anything from the existing file.
     updatedIndexContent(html){
+        let headContent = html.slice(html.indexOf('<head>'),html.indexOf('</head>'));
         return html.slice(0,html.indexOf('</head>')) +
-`<!-- WebApp tags -->
-    ${this.ans.features.includes('Manifest')?'<link rel="manifest" href="manifest.json">\n':''}
-    <meta name="theme-color" content="${this.ans.color}" />
+`
+    ${(this.ans.features.includes('Manifest') && !isPresentInHead(headContent,'rel','manifest'))?'<link rel="manifest" href="manifest.json">':''}
+    ${!isPresentInHead(headContent,'name','theme-color')?`<meta name="theme-color" content="${this.ans.color}" />`:''}
 `
 + html.slice(html.indexOf('</head>'), html.indexOf('</body>')) +
 `

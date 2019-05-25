@@ -54,7 +54,7 @@ function writeFile(path,content,options){
             // If the index file exists then we want to update it and add content to its existing content
             return Promise.resolve('update');
         }else{
-            console.log(`Err: Could not create ${path}, Already exist.`)
+            console.log(`War: Skipping ${path}, Already exist.`)
             return;
         }
     }

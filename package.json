@@ -1,7 +1,7 @@
 {
   "name": "pwainit",
-  "version": "2.0.5",
-  "description": "Initiate your Progressive Web App development with npm install -g pwainit",
+  "version": "2.1.0",
+  "description": "Turn your existing website to Progressive Web App or Initiate PWA project using just one command. 'npm i -g pwainit' to install pwainit and get started.",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -18,7 +18,8 @@
     "pwa-init",
     "pwa",
     "webapps",
-    "init-pwa"
+    "init-pwa",
+    "website-to-pwa"
   ],
   "author": "Saurabh Daware <saurabhdaware99@gmail.com> (https://saurabhdaware.in)",
   "license": "MIT",

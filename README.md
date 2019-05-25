@@ -1,20 +1,21 @@
-# pwainit
-Initiate your Progressive Web App Development with `npm i -g pwainit` 🎉
+# PWAinit
+Initiate PWA project and get boilerplate code for Progressive Web App features or Turn your existing website into Progressive Web App with `npm i -g pwainit` 🎉
 
 [![npm Package](https://img.shields.io/npm/v/pwainit.svg)](https://www.npmjs.org/package/pwainit) [![downloads per month](http://img.shields.io/npm/dm/pwainit.svg)](https://www.npmjs.org/package/pwainit) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/saurabhdaware/pwainit/issues) [![License](https://img.shields.io/npm/l/pwainit.svg)](https://github.com/saurabhdaware/pwainit/blob/master/LICENSE)
 
 [![https://nodei.co/npm/pwainit.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/pwainit.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/pwainit)
 
-pwainit lets you intialize your PWA development process without writing basic service worker, manifest and index code.
+PWAinit lets you intialize your PWA development process without writing basic service worker, manifest and index code.
 
-Currently the module adds Service Workers and Manifest
+Since v2.1.0 You can initialize into directory where index.html already exists and it will turn your existing site into PWA 🎉.
+
+Currently the module adds Service Worker and Manifest
 
 ## Usage
 - `npm i -g pwainit`
 - `pwainit <projectName>`  
-- Select the features that you want in your PWA. 
-- You can also update existing index.html by typing the name of existing folder
 - To initialize into same directory use `pwainit .`
+- You can also turn existing website into PWA by typing the name of existing folder or by `cd existingWebsite` and `pwainit .`
 
 
 ## What after pwainit?
