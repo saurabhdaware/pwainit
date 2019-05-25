@@ -9,8 +9,7 @@ class Content{
     
     // content of index.html
     index(){
-        return `
-<!DOCTYPE html>
+        return `<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -113,10 +112,9 @@ if('serviceWorker' in navigator) {
 
 
     manifest(){
-        return `
-{
-    "name": "${this.projectName}",
-    "short_name": "${this.projectName}",
+        return `{
+    "name": "${(this.projectName == '.')?'WebsiteName':this.projectName}",
+    "short_name": "${(this.projectName == '.')?'WebShortName':this.projectName}",
     "icons": [
         {
             "src": "assets/logo-192.png",
@@ -139,11 +137,10 @@ if('serviceWorker' in navigator) {
 
 
     serviceWorker(){
-        return `
-var CACHE_NAME = 'version-1';
+        return `var CACHE_NAME = 'version-1'; // bump this version when you make changes.
 // Put all your urls that you want to cache in this array
 var urlsToCache = [
-    '/',
+    'index.html',
     'assets/logo-192.png'
 ];
 
