@@ -1,5 +1,5 @@
 function isPresentInHead(headHtml,property,value){
-    return headHtml.includes(`${property}="${value}"`) || headHtml.includes(`${property}="${value}"`)
+    return headHtml.includes(`${property}="${value}"`) || headHtml.includes(`${property}='${value}'`)
 }  
 class Content{
     constructor(projectName,ans){
