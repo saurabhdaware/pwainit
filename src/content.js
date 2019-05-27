@@ -3,7 +3,7 @@ function isPresentInHead(headHtml,property,value){
 }  
 class Content{
     constructor(projectName,ans){
-        this.projectName = projectName;
+        this.projectName = (projectName == '.')?ans.appName:projectName;
         this.ans = ans;
     }
     
@@ -113,8 +113,8 @@ if('serviceWorker' in navigator) {
 
     manifest(){
         return `{
-    "name": "${(this.projectName == '.')?'WebsiteName':this.projectName}",
-    "short_name": "${(this.projectName == '.')?'WebShortName':this.projectName}",
+    "name": "${this.projectName}",
+    "short_name": "${this.projectName}",
     "icons": [
         {
             "src": "assets/logo-192.png",

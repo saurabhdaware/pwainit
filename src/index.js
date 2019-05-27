@@ -84,6 +84,12 @@ function createProject(projectName){
                 validate:function(value){
                     return value !== false;
                 }
+            }, 
+            {
+                type:'input',
+                message: 'Name of your Application :',
+                name:'appName',
+                default:'Hello World',
             },
             ...questions
         ]    
