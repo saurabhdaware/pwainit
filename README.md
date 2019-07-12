@@ -9,13 +9,13 @@ PWAinit lets you intialize your PWA development process without writing basic se
 
 Since v2.1.0 You can initialize into directory where index.html already exists and it will turn your existing site into PWA 🎉.
 
-Currently the module adds Service Worker and Manifest
+The module lets you add PWA functionalities like Service Worker, Manifest, Push API
 
 ## Usage
 - `npm i -g pwainit`
 - `pwainit <projectName>`  
 - To initialize into same directory use `pwainit .`
-- You can also turn existing website into PWA by typing the name of existing folder or by `cd existingWebsite` and `pwainit .`
+- You can also turn existing website into PWA by doing `cd existingWebsite` and `pwainit .`
 
 
 ## What after pwainit?
@@ -32,7 +32,8 @@ Currently the module adds Service Worker and Manifest
 - Service worker does not work over file:// protocol thus you will need http://localhost to test the service worker. You can do this using `npm i -g serve` and `serve <project name>`
 - Open developer tools, Application -> Service Worker to see active Service Worker and Application -> Manifest to see manifest settings.
 - Replace assets/logo-192.png and assets/logo-512.png with your website's logo of 192px and 512px respectively
-- For furthur help in development of PWA you might consider reading [Manifest Docs](https://developers.google.com/web/fundamentals/web-app-manifest/) and [Service Worker Docs](https://developers.google.com/web/fundamentals/primers/service-workers/)
+- If you chose Push API feature you will have to replace value of '< Firebase Web Push Certificate Key >' with your firebase web push key or a key generated from your backend. Read [Firebase Cloud Messaging Docs](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm) to know how to get web push key on firebase
+- For furthur help in development of PWA you might consider reading [Manifest Docs](https://developers.google.com/web/fundamentals/web-app-manifest/), [Service Worker Docs](https://developers.google.com/web/fundamentals/primers/service-workers/) and [Push API Docs](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications)
 
 
 

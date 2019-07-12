@@ -1,6 +1,7 @@
 function isPresentInHead(headHtml,property,value){
     return headHtml.includes(`${property}="${value}"`) || headHtml.includes(`${property}='${value}'`)
-}  
+}
+
 class Content{
     constructor(projectName,ans){
         this.projectName = (projectName == '.')?ans.appName:projectName;
@@ -56,23 +57,17 @@ class Content{
         <br><br>
         <br>If you liked this command line tool give it a star on <a href="https://github.com/saurabhdaware/pwainit">Github</a><br><br>
         Have fun building this PWA!
+        
+        ${this.ans.features.includes('Push API')?`
+        <!-- Notification Permission Ask // Its better to have a banner with buttons in this case i am just lazy to write more HTML-->
+        <br><br><b>Subscriber User for Push Service : </b>
+        <br><button onclick="subscribeUser();" style="background-color:#f30;color:#fff;border:none;padding:10px 20px">Allow Notifications</button>
+        `:''}
     </div>
-    ${this.ans.features.includes('Service Worker')?`
     <script>
-    // ServiceWorker Registration
-    if('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('sw.js').then(function(registration) {
-                // Registration was successful
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }, function(err) {
-                // registration failed :(
-                console.log('ServiceWorker registration failed: ', err);
-            });
-        });
-    }
+    ${this.serviceWorkerRegistrationCode()}
+    ${this.pushApiCode()}
     </script>
-    `:''}
     </body>
 </html>
 `
@@ -89,22 +84,15 @@ class Content{
 `
 + html.slice(html.indexOf('</head>'), html.indexOf('</body>')) +
 `
-${this.ans.features.includes('Service Worker')?`
-<script>
-// ServiceWorker Registration
-if('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('sw.js').then(function(registration) {
-            // Registration was successful
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        }, function(err) {
-            // registration failed :(
-            console.log('ServiceWorker registration failed: ', err);
-        });
-    });
-}
-</script>
+${this.ans.features.includes('Push API')?`
+    <!-- Notification Permission Ask // Its better to have a banner with buttons in this case i am just lazy to write more HTML-->
+    <br><br><b>Subscriber User for Push Service : </b>
+    <br><button onclick="subscribeUser();" style="background-color:#f30;color:#fff;border:none;padding:10px 20px">Allow Notifications</button>
 `:''}
+<script>
+${this.serviceWorkerRegistrationCode()}
+${this.pushApiCode()}
+</script>
 `
 + html.slice(html.indexOf('</body>'))
 
@@ -130,6 +118,7 @@ if('serviceWorker' in navigator) {
     "theme_color": "${this.ans.color}",
     "background_color": "${this.ans.color}",
     "display": "standalone",
+    ${this.ans.features.includes('Push API')?`"gcm_sender_id": "103953800507",`:''}
     "start_url":"index.html"
 }
 `
@@ -186,9 +175,144 @@ self.addEventListener('activate', function(event) {
         })
     );
 });
+${this.ans.features.includes('Push API')?`
         
+// NOTIFICATIONS
+
+// Listens to push events from endpoints. Please go through https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#push_api to understand this properly
+self.addEventListener('push', function(e) {
+    const data = e.data.json();
+    // e.data.json() holds the json sent from server. You can test this from developer tools -> Application -> Service Worker -> Push: []
+    var options = {
+      body: data.body,
+      icon: 'images/example.png',
+      vibrate: [100, 50, 100],
+      data: {
+        dateOfArrival: Date.now(),
+        primaryKey: '2'
+      },
+      actions: [
+        {action: 'explore', title: 'Explore this new world',
+          icon: 'images/checkmark.png'},
+        {action: 'close', title: 'Close',
+          icon: 'images/xmark.png'},
+      ]
+    };
+    e.waitUntil(
+      self.registration.showNotification(data.title, options)
+    );
+});
+`:''}
 `
     }
+
+    serviceWorkerRegistrationCode(){
+        if(!this.ans.features.includes('Service Worker')) return '';
+        return `
+    // ServiceWorker Registration
+    if('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('sw.js').then(function(registration) {
+                // Registration was successful
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                ${this.ans.features.includes('Push API')?`
+                // NOTIFICATION subscription
+                registration.pushManager.getSubscription().then(function(sub) {
+                    if (sub === null) {
+                        // Update UI to ask user to register for Push
+                        console.log('Not subscribed to push service!');
+                    } else {
+                        // We have a subscription, update the database
+                        console.log('Subscription object: ', sub);
+                    }
+                });
+                `:''}
+            }, function(err) {
+                // registration failed :(
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+    }
+    `;
+    }
+
+    pushApiCode(){
+        if(!this.ans.features.includes('Push API')) return '';
+        return `
+    // NOTIFICATIONS
+    // Ask permission
+    if (Notification.permission === "granted") {
+        displayNotification();
+    } else if (Notification.permission === "blocked") {
+        /* the user has previously denied push. Can't reprompt. */
+    } else {
+        /* show a prompt to the user */
+        Notification.requestPermission(function(status) {
+            console.log('Notification permission status:', status);
+        });
+    }
+
+    // Call this function whenever you want to display notification (while the user is using application)
+    // This way you can only show notification when user is on the web page
+    function displayNotification() {
+        navigator.serviceWorker.getRegistration().then(function(reg) {
+            var options = {
+                body: 'Welcome to the Progressive Web App!',
+                icon: 'assets/logo-192.png',
+                vibrate: [100, 50, 100],
+                data: {
+                    dateOfArrival: Date.now(),
+                    primaryKey: 1
+                }
+            };
+            reg.showNotification('Hey There!', options);
+        });
+    }
+
+    // Helper function to convert Base 64
+    function urlB64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\\-/g, '+')
+            .replace(/_/g, '/')
+        ;
+        const rawData = window.atob(base64);
+        return Uint8Array.from([...rawData].map((char) => char.charCodeAt(0)));
+    }
+
+
+    // Subscribe user for push service, This returns us subscription object which can be used to send notifications from backend
+
+    // To get firebaseWebPushKey, Go to your firebase project, Settings -> Project settings -> Cloud Messaging -> Web Configuration -> Generate Key Pair and copy paste the keypair here
+
+    // If you dont want to use firebase in your project follow the documentations given here -> https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#identifying_your_service_with_vapid_auth 
+    const firbaseWebPushKey = '< Firebase Web Push Certificate Key >'
+    const applicationServerKey = urlB64ToUint8Array(firbaseWebPushKey);
+
+    function subscribeUser() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(function(reg) {
+                reg.pushManager.subscribe({userVisibleOnly: true,applicationServerKey:applicationServerKey})
+                    .then(function(sub) {
+                        console.log(sub);
+                        console.log('Endpoint URL: ', sub.endpoint);
+                        // Pass sub to Server and store it. You will be using these end points to push notifications from your server
+                        // fetch('https://yourserver.com/api/store-notification-subscription',{body:sub})
+                    }).catch(function(e) {
+                        if (Notification.permission === 'denied') {
+                            console.warn('Permission for notifications was denied');
+                        } else {
+                            console.log("Please remember to change firebaseWebPushKey variable with your firebase web push key in index.html");
+                            console.error('Unable to subscribe to push', e);
+                            // console.log(e);
+                        }
+                    });
+            })
+        }
+    }
+    `
+    }
+    
 
 
 

@@ -22,6 +22,10 @@ let questions = [
           {
             name: 'Manifest',
             checked:true
+          },
+          {
+              name: 'Push API',
+              checked:false
           }
         ]
     },
@@ -98,6 +102,12 @@ function createProject(projectName){
     inquirer.prompt(questions).then((ans)=>{
         if(ans.samedir == false){ // If user selects 'No' when asked for 'Are you sure you want to init in same directory'
             console.log("Terminating process.."); 
+            return;
+        }
+
+        if(ans.features.includes('Push API') && !ans.features.includes('Service Worker')){
+            console.log("Err: It is neccesssary to have Service Worker for Push API to work so please select Service Worker in features");
+            console.log("Terminating process..");
             return;
         }
 
