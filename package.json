@@ -1,6 +1,6 @@
 {
   "name": "pwainit",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Turn your existing website to Progressive Web App or Initiate PWA project using just one command. 'npm i -g pwainit' to install pwainit and get started.",
   "main": "dist/index.js",
   "scripts": {

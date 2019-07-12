@@ -15,7 +15,7 @@ The module lets you add PWA functionalities like Service Worker, Manifest, Push 
 - `npm i -g pwainit`
 - `pwainit <projectName>`  
 - To initialize into same directory use `pwainit .`
-- You can also turn existing website into PWA by typing the name of existing folder or by `cd existingWebsite` and `pwainit .`
+- You can also turn existing website into PWA by doing `cd existingWebsite` and `pwainit .`
 
 
 ## What after pwainit?

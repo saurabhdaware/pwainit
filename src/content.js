@@ -84,6 +84,11 @@ class Content{
 `
 + html.slice(html.indexOf('</head>'), html.indexOf('</body>')) +
 `
+${this.ans.features.includes('Push API')?`
+    <!-- Notification Permission Ask // Its better to have a banner with buttons in this case i am just lazy to write more HTML-->
+    <br><br><b>Subscriber User for Push Service : </b>
+    <br><button onclick="subscribeUser();" style="background-color:#f30;color:#fff;border:none;padding:10px 20px">Allow Notifications</button>
+`:''}
 <script>
 ${this.serviceWorkerRegistrationCode()}
 ${this.pushApiCode()}
@@ -291,6 +296,8 @@ self.addEventListener('push', function(e) {
                     .then(function(sub) {
                         console.log(sub);
                         console.log('Endpoint URL: ', sub.endpoint);
+                        // Pass sub to Server and store it. You will be using these end points to push notifications from your server
+                        // fetch('https://yourserver.com/api/store-notification-subscription',{body:sub})
                     }).catch(function(e) {
                         if (Notification.permission === 'denied') {
                             console.warn('Permission for notifications was denied');
