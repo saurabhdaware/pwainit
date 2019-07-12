@@ -7,7 +7,7 @@ PWAinit lets you intialize your PWA development process without writing basic se
 
 [![https://nodei.co/npm/pwainit.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/pwainit.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/pwainit)
 
-![Cmd ScreenShot](images/pwainit.svg)
+![Cmd ScreenShot](images/pwainit.png)
 
 ## Table of Content
 - [Installation and Usage](#installation-and-usage)
