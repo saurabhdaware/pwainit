@@ -38,13 +38,15 @@ PWAinit lets you intialize your PWA development process without writing basic se
 
 You can read my Medium article of [Turning your existing website to PWA using pwainit](https://medium.com/@saurabhdaware/turning-your-existing-website-to-pwa-using-pwainit-8c56c42abc4e) where I explained the steps in details
 
-In version 2.1.6 I've added a `-o` or `--overwrite` flag 
+##### Overwrite flag
+In version *2.1.6*  `-o` or `--overwrite` flag has been added.
 
 You can use it as `pwainit -o .`
 
-By default I do not overwrite the existing sw.js or manifest.json file. This flag will overwrite the existing sw.js and manifest.json files.
+By default I do not overwrite the existing sw.js or manifest.json file. This flag will overwrite your existing sw.js and manifest.json files.
 
-I will recommend using this flag if you're existing sw.js and manifest.json does not have any important content.
+I will recommend using this flag if your existing sw.js and manifest.json does not have any important content.
+
 
 
 ## What after pwainit?
