@@ -6,6 +6,31 @@ class Content{
     constructor(projectName,ans){
         this.projectName = (projectName == '.')?ans.appName:projectName;
         this.ans = ans;
+        this.swPushAPI = `// NOTIFICATIONS
+
+// Listens to push events from endpoints. Please go through https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#push_api to understand this properly
+self.addEventListener('push', function(e) {
+    const data = e.data.text(); // or your can add e.data.json() and pass json data from server
+    // e.data.text() holds the text sent from server. You can test this from developer tools -> Application -> Service Worker -> Push: []
+    var options = {
+        body: data,
+        icon: 'images/example.png',
+        vibrate: [100, 50, 100],
+        data: {
+        dateOfArrival: Date.now(),
+        primaryKey: '2'
+        },
+        actions: [
+        {action: 'explore', title: 'Explore this new world',
+            icon: 'images/checkmark.png'},
+        {action: 'close', title: 'Close',
+            icon: 'images/xmark.png'},
+        ]
+    };
+    e.waitUntil(
+        self.registration.showNotification('Title text', options)
+    );
+});`
     }
     
     // content of index.html
@@ -35,34 +60,35 @@ class Content{
         <link rel=icon sizes=192x192 href="assets/logo-192.png">
         <meta name="theme-color" content="${this.ans.color}" />
         <title>${this.projectName}</title>
-        ${this.ans.features.includes('Manifest')?'<link rel="manifest" href="manifest.json"> <!- - -->':''}
+        ${this.ans.features.includes('Manifest')?'<link rel="manifest" href="manifest.json">':''}
+        <style>
+            :root{
+                --theme:${this.ans.color};
+            }
+            a{text-decoration:none;color:var(--theme)}
+        </style>
     </head>
     <body>
     <!-- Replace this Div with your HTML content -->
-    <div style="margin-top:100px;font-family:arial,Cursive;padding-left:100px">
-        <img src="assets/logo-192.png" width='70'>
-        <h2>
-            Welcome to PWA '${this.projectName}'
-            <div style="margin-left:20px;height:18px;width:30px;background-color:${this.ans.color};display:inline-block"></div>
+    <div style="position:relative;margin-top:100px;font-family:arial,Cursive;padding-left:100px;text-align:center;">
+        <img src="https://res.cloudinary.com/saurabhdaware/image/upload/v1557861561/saurabhdaware.in/projects/pwainit-portfolio.png" width=300 style="border-radius:50%;"><br>
+        <img style="position:absolute;top:120px;left:0;right:0;margin:auto;" src="assets/logo-192.png" width='70'>
+        <h2 style="color:var(--theme)">
+            Your PWA ${this.projectName} is ready 🎉
         </h2>
-        This project is generated using <a href="https://github.com/saurabhdaware/pwainit">pwainit</a><br><br>
-        The client generated following files:<br>
-        ${this.ans.features.includes('Manifest')?'- <a href="manifest.json">manifest.json</a><br>':''}
-        ${this.ans.features.includes('Service Worker')?'- <a href="sw.js">sw.js</a><br>':''}
-        <br><b>Note:</b> Service Workers dont work from file:// protocol so you will need to serve over http://localhost for them to work. You can do this using 'npm i -g serve' then 'serve dist'.<br><br>
-        Check Application tab -> Manifest and Application tab -> Service Worker in developer tools to debug them.<br><br>
-        If you have no idea what service workers and manifest are, you might consider reading following articles:<br>
-        <a href="https://developers.google.com/web/fundamentals/web-app-manifest/">https://developers.google.com/web/fundamentals/web-app-manifest/</a> <br>
-        <a href="https://developers.google.com/web/fundamentals/primers/service-workers/">https://developers.google.com/web/fundamentals/primers/service-workers/</a>
-        <br><br>
-        <br>If you liked this command line tool give it a star on <a href="https://github.com/saurabhdaware/pwainit">Github</a><br><br>
-        Have fun building this PWA!
-        
-        ${this.ans.features.includes('Push API')?`
-        <!-- Notification Permission Ask // Its better to have a banner with buttons in this case i am just lazy to write more HTML-->
-        <br><br><b>Subscriber User for Push Service : </b>
-        <br><button onclick="subscribeUser();" style="background-color:#f30;color:#fff;border:none;padding:10px 20px">Allow Notifications</button>
-        `:''}
+        <div style="opacity:.8;color:#333;">
+            This project is generated using <a href="https://saurabhdaware.github.io/pwainit">pwainit</a><br><br>
+            <br><b>Useful Links</b><br>
+            <a href="https://saurabhdaware.github.io/pwainit">Docs</a> <b>|</b> <a href="https://github.com/saurabhdaware/pwainit">Github</a> <b>|</b> <a href="https://medium.com/@saurabhdaware/turning-your-existing-website-to-pwa-using-pwainit-8c56c42abc4e">Medium Article</a>
+            <br><br><b>The client generated following files</b><br>
+            ${ this.ans.features.includes('Manifest')?`<a href="manifest.json">manifest.json</a>`:''} 
+            ${ this.ans.features.includes('Service Worker')?`<b>|</b> <a href="sw.js">sw.js</a><br>`:''}
+            ${this.ans.features.includes('Push API')?`<br><b>Confused about PUSH API? Read Docs for furthur setup <br><a href="https://saurabhdaware.github.io/pwainit/#setup">https://saurabhdaware.github.io/pwainit/#setup</a></b>
+            <!-- Notification Permission Ask // Its better to have a banner with buttons in this case i am just lazy to write more HTML -->
+            <br><br><b>Subscribe User for Push Service </b>
+            <br><button onclick="subscribeUser();" style="background-color:#111;font-weight:bold;margin-top:10px;cursor:pointer;color:#fff;border:none;padding:10px 20px">Allow Notifications</button><br><small>Click and check the console</small>
+            `:''}
+        </div>
     </div>
     <script>
     ${this.serviceWorkerRegistrationCode()}
@@ -85,9 +111,8 @@ class Content{
 + html.slice(html.indexOf('</head>'), html.indexOf('</body>')) +
 `
 ${this.ans.features.includes('Push API')?`
-    <!-- Notification Permission Ask // Its better to have a banner with buttons in this case i am just lazy to write more HTML-->
-    <br><br><b>Subscriber User for Push Service : </b>
-    <br><button onclick="subscribeUser();" style="background-color:#f30;color:#fff;border:none;padding:10px 20px">Allow Notifications</button>
+    <!-- Notification Permission Ask // Its better to have a banner with buttons -->
+    <br><button onclick="subscribeUser();" style="background-color:#f30;color:#fff;border:none;padding:10px 20px;position:fixed;top:10px;left:10px;z-index:100000">Allow Push Notifications</button>
 `:''}
 <script>
 ${this.serviceWorkerRegistrationCode()}
@@ -122,6 +147,11 @@ ${this.pushApiCode()}
     "start_url":"index.html"
 }
 `
+    }
+
+    updatedServiceWorkerContent(js){
+        if(!this.ans.features.includes("Push API")) return js;
+        return js + this.swPushAPI
     }
 
 
@@ -175,34 +205,7 @@ self.addEventListener('activate', function(event) {
         })
     );
 });
-${this.ans.features.includes('Push API')?`
-        
-// NOTIFICATIONS
-
-// Listens to push events from endpoints. Please go through https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#push_api to understand this properly
-self.addEventListener('push', function(e) {
-    const data = e.data.json();
-    // e.data.json() holds the json sent from server. You can test this from developer tools -> Application -> Service Worker -> Push: []
-    var options = {
-      body: data.body,
-      icon: 'images/example.png',
-      vibrate: [100, 50, 100],
-      data: {
-        dateOfArrival: Date.now(),
-        primaryKey: '2'
-      },
-      actions: [
-        {action: 'explore', title: 'Explore this new world',
-          icon: 'images/checkmark.png'},
-        {action: 'close', title: 'Close',
-          icon: 'images/xmark.png'},
-      ]
-    };
-    e.waitUntil(
-      self.registration.showNotification(data.title, options)
-    );
-});
-`:''}
+${this.ans.features.includes('Push API')?this.swPushAPI:''}
 `
     }
 
@@ -239,6 +242,13 @@ self.addEventListener('push', function(e) {
     pushApiCode(){
         if(!this.ans.features.includes('Push API')) return '';
         return `
+    
+    // To get firebaseWebPushKey, Go to your firebase project, Settings -> Project settings -> Cloud Messaging -> Web Configuration -> Generate Key Pair and copy paste the keypair here
+
+    // If you dont want to use firebase in your project follow the documentations given here -> https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#identifying_your_service_with_vapid_auth 
+    const firbaseWebPushKey = 'Put Firebase Web Push Certificate Key Here'
+
+
     // NOTIFICATIONS
     // Ask permission
     if (Notification.permission === "granted") {
@@ -283,10 +293,6 @@ self.addEventListener('push', function(e) {
 
     // Subscribe user for push service, This returns us subscription object which can be used to send notifications from backend
 
-    // To get firebaseWebPushKey, Go to your firebase project, Settings -> Project settings -> Cloud Messaging -> Web Configuration -> Generate Key Pair and copy paste the keypair here
-
-    // If you dont want to use firebase in your project follow the documentations given here -> https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#identifying_your_service_with_vapid_auth 
-    const firbaseWebPushKey = '< Firebase Web Push Certificate Key >'
     const applicationServerKey = urlB64ToUint8Array(firbaseWebPushKey);
 
     function subscribeUser() {
@@ -296,17 +302,24 @@ self.addEventListener('push', function(e) {
                     .then(function(sub) {
                         console.log(sub);
                         console.log('Endpoint URL: ', sub.endpoint);
+                        console.log("post this data to your server and store in database, then use the endpoint to push notifications from server")
                         // Pass sub to Server and store it. You will be using these end points to push notifications from your server
-                        // fetch('https://yourserver.com/api/store-notification-subscription',{body:sub})
+                        // fetch('https://yourserver.com/store-notification-subscription',{body:sub})
                     }).catch(function(e) {
                         if (Notification.permission === 'denied') {
                             console.warn('Permission for notifications was denied');
                         } else {
-                            console.log("Please remember to change firebaseWebPushKey variable with your firebase web push key in index.html");
+                            console.warn("Please make sure you change firebaseWebPushKey variable with your firebase web push key in index.html.");
+                            console.log("If you're using firebase Go to your firebase project, Settings -> Project settings -> Cloud Messaging -> Web Configuration -> Generate Key Pair and copy paste into the variable firebaseWebPushKey");
+                            console.log("If not using firebase then follow https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#identifying_your_service_with_vapid_auth")
                             console.error('Unable to subscribe to push', e);
-                            // console.log(e);
                         }
                     });
+            }).catch(e => {
+                console.error(e);
+                console.warn("Please make sure you change firebaseWebPushKey variable with your firebase web push key in index.html.");
+                console.log("If you're using firebase Go to your firebase project, Settings -> Project settings -> Cloud Messaging -> Web Configuration -> Generate Key Pair and copy paste into the variable firebaseWebPushKey");
+                console.log("If not using firebase then follow https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#identifying_your_service_with_vapid_auth")
             })
         }
     }

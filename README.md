@@ -61,7 +61,7 @@ They do not require any additional configuration to work however you can add you
 ## Debug
 - Open developer tools, Application -> Service Worker to see active Service Worker and Application -> Manifest to see manifest settings.
 - If you choose Push API feature you will have to replace value of `< Firebase Web Push Certificate Key >` with your firebase web push key or a key generated from your backend. Read [Firebase Cloud Messaging Docs](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm) to know how to get web push key on firebase
-- You can check push notification by going to Developer tools -> Application -> Service Worker in the Push textbox type `{"title":"Hi I am title","body":"and I am body"}` and hit push button.
+- You can check push notification by going to Developer tools -> Application -> Service Worker in the Push textbox type text and hit push button.
 
 ## Furthur Development
 #### Service Worker

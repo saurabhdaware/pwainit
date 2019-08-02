@@ -1,6 +1,6 @@
 {
   "name": "pwainit",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "Turn your existing website to Progressive Web App or Initiate PWA project using just one command. 'npm i -g pwainit' to install pwainit and get started.",
   "main": "dist/index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/saurabhdaware/pwainit/issues"
   },
-  "homepage": "https://github.com/saurabhdaware/pwainit#readme",
+  "homepage": "https://saurabhdaware.github.io/pwainit",
   "preferGlobal": true,
   "bin": {
     "pwainit": "dist/index.js"

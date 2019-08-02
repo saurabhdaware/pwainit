@@ -14,7 +14,7 @@ let questions = [
         message: 'Select Features to add ',
         name: 'features',
         choices: [
-        //   new inquirer.Separator(' = PWA FEATURES = '),
+          new inquirer.Separator(' .:: PWA FEATURES ::. '),
           {
             name: 'Service Worker',
             checked:true
@@ -24,8 +24,8 @@ let questions = [
             checked:true
           },
           {
-              name: 'Push API',
-              checked:false
+            name: 'Push API',
+            checked:false
           }
         ]
     },
@@ -44,6 +44,7 @@ let questions = [
 // Main command line settings
 program
     .version(configs.version)
+    .option('-o, --overwrite',"Overwrite existing files by new files (May delete sw.js, manifest.json if already exists) (will not delete index.html).")
     .usage('[options] [projectName]')
     .arguments('[projectName]')
     .action(createProject)
@@ -57,9 +58,18 @@ function writeFile(path,content,options){
         if(path.slice(-10) == 'index.html'){
             // If the index file exists then we want to update it and add content to its existing content
             return Promise.resolve('update');
-        }else{
+        }else if(path.slice(-3) == 'png'){
             console.log(`War: Skipping ${path}, Already exist.`)
             return;
+        }else if(program.overwrite){
+            return fse.outputFile(path,content,options)
+                .then(() => {
+                    console.log(`.....Overwrote ${path}`)
+                })
+                .catch(console.error);
+        }else{
+            console.log(`War: Skipping ${path}, Already exist.`)
+            return;        
         }
     }
 
@@ -79,24 +89,18 @@ function createProject(projectName){
     }
 
     if(projectName == '.'){
-        questions = [
-            {
-                type:'confirm',
-                name:'samedir',
-                message:'Are you sure you want to init in same directory?',
-                default:true,
-                validate:function(value){
-                    return value !== false;
-                }
-            }, 
-            {
-                type:'input',
-                message: 'Name of your Application :',
-                name:'appName',
-                default:'Hello World',
-            },
-            ...questions
-        ]    
+        questions.unshift({
+            type:'confirm',
+            name:'samedir',
+            message:'Are you sure you want to init in same directory?',
+            default:true
+        }, 
+        {
+            type:'input',
+            message: 'Name of your Application :',
+            name:'appName',
+            default:'Hello World'
+        })
     }
 
     inquirer.prompt(questions).then((ans)=>{
@@ -105,10 +109,8 @@ function createProject(projectName){
             return;
         }
 
-        if(ans.features.includes('Push API') && !ans.features.includes('Service Worker')){
-            console.log("Err: It is neccesssary to have Service Worker for Push API to work so please select Service Worker in features");
-            console.log("Terminating process..");
-            return;
+        if(ans.features.includes('Push API') && !fse.existsSync(`${projectName}/sw.js`)){
+            console.log("Warning: Service Worker not found. Push API will not properly work without a service worker");
         }
 
         let content = new Content(projectName,ans); // Content class comes from ./content.js
@@ -135,6 +137,6 @@ function createProject(projectName){
             writeFile(`${projectName}/sw.js`,content.serviceWorker());
         }
 
-        
+
     })
 }
