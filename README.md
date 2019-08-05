@@ -22,7 +22,8 @@ PWAinit lets you intialize your PWA development process without writing basic se
     - [Manifest](#manifest)
     - [Push API](#push-api)
 - [References](#references)
-
+- [Release Notes](#release-notes)
+- [Contributing](#contribution)
 
 
 ## Installation and Usage
@@ -93,6 +94,8 @@ Read the [Push API Backend Docs](https://developers.google.com/web/ilt/pwa/intro
 - [Firebase Cloud Messaging Docs](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm)
 - [Push API Backend Docs](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#working_with_data_payloads)
 
+## Release Notes
+Read [CHANGELOGS](CHANGELOGS.MD) to find out what's new.
 
 ## Contribution 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/saurabhdaware/pwainit/issues)

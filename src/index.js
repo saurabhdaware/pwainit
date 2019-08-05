@@ -109,9 +109,9 @@ function createProject(projectName){
             return;
         }
 
-        if(ans.features.includes('Push API') && !fse.existsSync(`${projectName}/sw.js`)){
-            console.log("Warning: Service Worker not found. Push API will not properly work without a service worker");
-        }
+        // if(ans.features.includes('Push API') && !ans.features.includes("Service Worker") && !fse.existsSync(`${projectName}/sw.js`)){
+        //     console.log("Warning: Service Worker not found. Push API will not work properly without a service worker");
+        // }
 
         let content = new Content(projectName,ans); // Content class comes from ./content.js
         
