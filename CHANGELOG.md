@@ -43,5 +43,5 @@ Push API final release!
 - Home page UI changed
 - `-o or --overwrite` flag added to overwrites the existing sw.js and manifest.json file
 
-## 2.1.7
-Service worker does not exist warning bug fix
+## 2.1.8
+Service worker does not exist warning removed
