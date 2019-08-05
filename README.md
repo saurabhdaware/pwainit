@@ -95,7 +95,7 @@ Read the [Push API Backend Docs](https://developers.google.com/web/ilt/pwa/intro
 - [Push API Backend Docs](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#working_with_data_payloads)
 
 ## Release Notes
-Read [CHANGELOGS](CHANGELOGS.MD) to find out what's new.
+Read [CHANGELOG](CHANGELOG.MD) to find out what's new.
 
 ## Contribution 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/saurabhdaware/pwainit/issues)
