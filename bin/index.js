@@ -4,8 +4,8 @@ const program = require('commander');
 const configs = require('../package.json')
 const fse = require('fs-extra');
 const inquirer = require('inquirer');
-const Content = require('./content.js');
-const logos = require('./logos.js')
+const Content = require('../lib/content.js');
+const logos = require('../lib/logos.js')
     
 
 let questions = [

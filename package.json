@@ -2,12 +2,10 @@
   "name": "pwainit",
   "version": "2.1.8",
   "description": "Turn your existing website to Progressive Web App or Initiate PWA project using just one command. 'npm i -g pwainit' to install pwainit and get started.",
-  "main": "dist/index.js",
+  "main": "bin/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pwainit": "node src/index.js",
-    "dev": "node src/index.js",
-    "build": "node build/build.js"
+    "dev": "node bin/index.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +27,7 @@
   "homepage": "https://saurabhdaware.github.io/pwainit",
   "preferGlobal": true,
   "bin": {
-    "pwainit": "dist/index.js"
+    "pwainit": "bin/index.js"
   },
   "dependencies": {
     "commander": "^2.20.0",
