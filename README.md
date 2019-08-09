@@ -1,7 +1,7 @@
 # PWAinit Documentation
 Initiate PWA project and get boilerplate code for Progressive Web App features or Turn your existing website into Progressive Web App with `npm i -g pwainit` 🎉
 
-PWAinit lets you intialize your PWA development process without writing basic service worker, manifest and index code.
+PWAinit lets you intialize your PWA development process without writing basic service worker, manifest, push api and index.html code.
 
 [![npm Package](https://img.shields.io/npm/v/pwainit.svg)](https://www.npmjs.org/package/pwainit) [![downloads](https://img.shields.io/npm/dt/pwainit.svg)](http://npm-stat.com/charts.html?package=pwainit)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/saurabhdaware/pwainit/issues) [![License](https://img.shields.io/npm/l/pwainit.svg)](https://github.com/saurabhdaware/pwainit/blob/master/LICENSE)
@@ -39,16 +39,6 @@ PWAinit lets you intialize your PWA development process without writing basic se
 
 You can read my Medium article of [Turning your existing website to PWA using pwainit](https://medium.com/@saurabhdaware/turning-your-existing-website-to-pwa-using-pwainit-8c56c42abc4e) where I explained the steps in details
 
-##### Overwrite flag
-In version *2.1.6*  `-o` or `--overwrite` flag has been added.
-
-You can use it as `pwainit -o .`
-
-By default I do not overwrite the existing sw.js or manifest.json file. This flag will overwrite your existing sw.js and manifest.json files.
-
-I will recommend using this flag if your existing sw.js and manifest.json does not have any important content.
-
-
 
 ## What after pwainit?
 - After completing above steps you will get files in following structure
@@ -61,19 +51,19 @@ I will recommend using this flag if your existing sw.js and manifest.json does n
 ### Setup
 
 #### ▸ For Push API
-- Push API requires vapid which is provided by clouse messaging service(e.g. Firebase) or could be generated from backend. 
-- If you are using Firebase then change the value of `const firbaseWebPushKey = < Firebase Web Push Certificate Key >` with your Web Push Key.
-- Here's how to generate Web Push Key on Firebase : [https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm)
-- If you are not using Firebase then refer :
-[https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#identifying_your_service_with_vapid_auth](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#identifying_your_service_with_vapid_auth)
+- Look for line `const publicVapidKey = 'Your Public Vapid Key'` in index.html and change value with your public vapid key generated from the backend
+- Checkout [pwainit-node-pushapi](https://github.com/saurabhdaware/pwainit-node-pushapi) for the backend code of Push API and Instructions to generate Vapid Keys.
+
 
 #### ▸ For Service Worker and Manifest
 They do not require any additional configuration to work however you can add your extra files to the `urlsToCache[]` array in sw.js to make them work offline
 
 ## Debug
 - Open developer tools, Application -> Service Worker to see active Service Worker and Application -> Manifest to see manifest settings.
-- If you choose Push API feature you will have to replace value of `< Firebase Web Push Certificate Key >` with your firebase web push key or a key generated from your backend. Read [Firebase Cloud Messaging Docs](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm) to know how to get web push key on firebase
-- You can check push notification by going to Developer tools -> Application -> Service Worker in the Push textbox type text and hit push button.
+- You can check push notification by going to Developer tools -> Application -> Service Worker in the Push textbox paste following and hit push button. 
+    ```
+    {title:"My Title",body:"My Body"}
+    ```
 
 ## Furthur Development
 #### Service Worker
@@ -83,19 +73,33 @@ By default service worker code includes offline caching of files `assets/logo-19
 Manifest.json is the configuration file of your PWA. You can change theme color, name, short_name and initial logos from manifest file.
 
 #### Push API
-If you select Push API feature you will get code to subscribe user (You will have to add your VAPID for it to work as mentioned in [setup](#for-push-api)) which will return subscription object. This object should be passed to your backend and the endpoint should be used to Push Notification to the user.
+- Just follow steps as mentioned in [Setup](#setup)
+- The subscription object is supposed to be stored in database and used whenever you want to send a notification.
 
-Read the [Push API Backend Docs](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#working_with_data_payloads) to understand the backend code of Push API
+    
+**Checkout Push API backend example in NodeJS [https://github.com/saurabhdaware/pwainit-node-pushapi](https://github.com/saurabhdaware/pwainit-node-pushapi)**
+
+Also you can read the [Push API Backend Docs](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#working_with_data_payloads) to understand the backend code of Push API
+
 
 ## References
+| Flag | Description |
+|--------------|-------------|
+| -o or --overwrite (v2.1.6+) | While turning existing site to PWA by default pwainit does not overwrite the contents of your sw.js or manifest.json (if exists). This flag will let pwainit replace the content.|
+| -V or --version| Check version |
+| -h or -help| Help |
 - [Manifest Docs](https://developers.google.com/web/fundamentals/web-app-manifest/)
 - [Service Worker Docs](https://developers.google.com/web/fundamentals/primers/service-workers/) 
 - [Push API Docs](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications)
-- [Firebase Cloud Messaging Docs](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm)
 - [Push API Backend Docs](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#working_with_data_payloads)
+- [Firebase Cloud Messaging Docs](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm)
+- If you are using Firebase then change the value of `const publicVapidKey = < Firebase Web Push Certificate Key >` with your Web Push Key.
+- Here's how to generate Web Push Key on Firebase : [https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm)
+- If you are not using Firebase then refer :
+[https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#identifying_your_service_with_vapid_auth](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#identifying_your_service_with_vapid_auth)
 
 ## Release Notes
-Read [CHANGELOG](CHANGELOG.MD) to find out what's new.
+Read [CHANGELOG](CHANGELOG.md) for complete logs.
 
 ## Contribution 
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/saurabhdaware/pwainit/issues)

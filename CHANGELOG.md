@@ -1,10 +1,10 @@
 # Release Notes
 
-## v1.0.0
+## 1.0.0
 
 Initial Release
 
-## v1.0.4
+## 1.0.4
 Basic features Manifest/SW/Index file added
 
 ## 1.0.5 
@@ -45,3 +45,12 @@ Push API final release!
 
 ## 2.1.8
 Service worker does not exist warning removed
+
+## 2.2.0
+- Major changes in internal structure
+- No more dependent on Firebase
+- Backend code written and published in repository [https://github.com/saurabhdaware/pwainit-node-pushapi](https://github.com/saurabhdaware/pwainit-node-pushapi)
+- Error handling for invalid vapid key and initiating push api without service worker
+- Bug Fixes
+- Documentation cleanup
+- Unnecessary code removed from Push API
