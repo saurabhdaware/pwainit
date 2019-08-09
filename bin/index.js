@@ -109,6 +109,12 @@ function createProject(projectName){
             return;
         }
 
+        if(ans.features.includes("Push API") && !ans.features.includes("Service Worker")){
+            console.log("Err: You cannot initiate pushapi without a service worker. Try again with Service Worker selected");
+            console.log("Terminating process..");
+            return;
+        }
+
         // if(ans.features.includes('Push API') && !ans.features.includes("Service Worker") && !fse.existsSync(`${projectName}/sw.js`)){
         //     console.log("Warning: Service Worker not found. Push API will not work properly without a service worker");
         // }
