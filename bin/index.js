@@ -6,8 +6,7 @@ const fse = require('fs-extra');
 const inquirer = require('inquirer');
 const Content = require('../lib/content.js');
 const logos = require('../lib/logos.js')
-const {writeFile, getQuestions} = require('../lib/helper_functions.js');
-const { execSync } = require('child_process');
+const {writeFile, getQuestions, setupBackend} = require('../lib/helper_functions.js');
 
 
 // Main command line settings
@@ -18,26 +17,6 @@ program
     .arguments('[projectName]')
     .action(createProject)
     .parse(process.argv)
-
-async function setupBackend(projectName,content){
-    console.log(".:: Initiating Push API backend setup (This may take a while)::.");
-    let stdout = execSync(`git clone https://github.com/saurabhdaware/pwainit-node-pushapi.git ${projectName}/pushapi-backend`,{ encoding: 'utf8', maxBuffer: 50 * 1024 * 1024 });
-    console.log("Installing required packages...")
-    let npmInstall = execSync(`cd ${projectName}/pushapi-backend && npm install && ./node_modules/.bin/web-push generate-vapid-keys`,{ encoding: 'utf8', maxBuffer: 50 * 1024 * 1024 }).toString();
-    console.log("Setting up your keys...");
-    let start = npmInstall.indexOf('Public Key');
-    let k = npmInstall.slice(start,npmInstall.indexOf('==',start));
-    k = k.replace(/=|\n/g,'').toString();
-
-    let publicKeyIn = k.slice(11,k.indexOf('Private Key:')).trim();
-    console.log("\nPush API Public Vapid Key: " +publicKeyIn);
-
-    const privateKey = k.slice(k.indexOf('Private Key:')+12).trim();
-    console.log("\nPush API Private Key: "+privateKey);
-
-    writeFile(`${projectName}/pushapi-backend/.env`,content.dotEnv(publicKeyIn,privateKey));
-    return publicKeyIn;
-}
 
 
 function createProject(projectName){
