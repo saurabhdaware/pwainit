@@ -3,6 +3,8 @@ Initiate PWA project and get boilerplate code for Progressive Web App features o
 
 PWAinit lets you intialize your PWA development process without writing basic service worker, manifest, push api and index.html code.
 
+**Starting from v3.0.0 PWAinit lets you add Backend code of PushAPI and requires zero additional configurations to send Notifications 🎉🎉🎉🎉**
+
 [![npm Package](https://img.shields.io/npm/v/pwainit.svg)](https://www.npmjs.org/package/pwainit) [![downloads](https://img.shields.io/npm/dt/pwainit.svg)](http://npm-stat.com/charts.html?package=pwainit)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/saurabhdaware/pwainit/issues) [![License](https://img.shields.io/npm/l/pwainit.svg)](https://github.com/saurabhdaware/pwainit/blob/master/LICENSE)
 
@@ -51,6 +53,7 @@ You can read my Medium article of [Turning your existing website to PWA using pw
 ### Setup
 
 #### ▸ For Push API
+- **v3.0.0+ does not require any additional configuration if you initiate with Push API backend**
 - Look for line `const publicVapidKey = 'Your Public Vapid Key'` in index.html and change value with your public vapid key generated from the backend
 - Checkout [pwainit-node-pushapi](https://github.com/saurabhdaware/pwainit-node-pushapi) for the backend code of Push API and Instructions to generate Vapid Keys.
 
@@ -62,7 +65,7 @@ They do not require any additional configuration to work however you can add you
 - Open developer tools, Application -> Service Worker to see active Service Worker and Application -> Manifest to see manifest settings.
 - You can check push notification by going to Developer tools -> Application -> Service Worker in the Push textbox paste following and hit push button. 
     ```
-    {title:"My Title",body:"My Body"}
+    {"title":"My Title","body":"My Body"}
     ```
 
 ## Furthur Development
@@ -76,7 +79,7 @@ Manifest.json is the configuration file of your PWA. You can change theme color,
 - Just follow steps as mentioned in [Setup](#setup)
 - The subscription object is supposed to be stored in database and used whenever you want to send a notification.
 
-    
+
 **Checkout Push API backend example in NodeJS [https://github.com/saurabhdaware/pwainit-node-pushapi](https://github.com/saurabhdaware/pwainit-node-pushapi)**
 
 Also you can read the [Push API Backend Docs](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications#working_with_data_payloads) to understand the backend code of Push API
