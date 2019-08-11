@@ -7,7 +7,9 @@ const inquirer = require('inquirer');
 const Content = require('../lib/content.js');
 const logos = require('../lib/logos.js')
 const {writeFile, getQuestions, setupBackend} = require('../lib/helper_functions.js');
+const chalk = require('chalk');
 
+let isErr = false;
 
 // Main command line settings
 program
@@ -21,17 +23,20 @@ program
 
 function createProject(projectName){
     if(!projectName){
+        isErr = true;
         console.log("Err: Please enter project name (E.g 'pwainit coolproject' )");
         return;
     }
 
     inquirer.prompt(getQuestions(projectName)).then(async (ans)=>{
         if(ans.samedir == false){ // If user selects 'No' when asked for 'Are you sure you want to init in same directory'
+            isErr = true;
             console.log("Terminating process..");
             return;
         }
 
         const content = new Content(projectName,ans); // Content class comes from ./lib/content.js
+        console.log("\n"+chalk.bold.blue(".::") + " Your Progressive Web App is getting ready "+chalk.bold.blue("::."));
         
         // Main stuff goes here
         writeFile(`${projectName}/assets/logo-192.png`,logos.logo192, 'base64',program.overwrite);
@@ -46,9 +51,17 @@ function createProject(projectName){
         }
 
         let publicKey = '';
-        
+
         if(ans.installBackend){
-            publicKey = await setupBackend(projectName,content);
+            try{
+                publicKey = await setupBackend(projectName,content);
+            }catch(err){
+                isErr = true;
+                console.log(chalk.red("Error occured while setting backend"));
+                console.log(chalk.bold.red("Make sure you are connected to internet"));
+                console.log("\n\nError log:"+err+"\n");
+                console.log(chalk.bold.green(">>>")+chalk.bold(" Initiating without backend"));
+            }
         }
 
         writeFile(`${projectName}/index.html`,content.index(publicKey?publicKey:'Your Public Vapid Key')).then((msg) => {
@@ -60,6 +73,11 @@ function createProject(projectName){
                     .then(() => console.log(`.....Updated ${projectName}/index.html`))
             }
         })
+       
 
     })
 }
+
+process.on('beforeExit',(code) => {
+    if(!isErr) console.log("\n"+chalk.green.bold(">>>")+chalk.bold(" Boom... Magic!! Your Progressive Web App is Ready 🚀\n"));
+})
