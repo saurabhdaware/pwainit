@@ -60,7 +60,7 @@ function createProject(projectName){
                 console.log(chalk.red("Error occured while setting backend"));
                 console.log(chalk.bold.red("Make sure you are connected to internet"));
                 console.log("\n\nError log:"+err+"\n");
-                console.log(chalk.bold.green(">>>")+chalk.bold(" Initiating without backend"));
+                console.log(chalk.bold.green(">>>")+chalk.bold(" Initiating without backend\n"));
             }
         }
 
