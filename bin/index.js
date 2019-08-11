@@ -10,17 +10,31 @@ const {writeFile, getQuestions, setupBackend} = require('../lib/helper_functions
 const chalk = require('chalk');
 
 let isErr = false;
+let done = false;
 
-// Main command line settings
+// COMMANDS
+program.version(configs.version)
+
 program
-    .version(configs.version)
-    .option('-o, --overwrite',"Overwrite existing files by new files (May delete sw.js, manifest.json if already exists) (will not delete index.html).")
-    .usage('[options] [projectName]')
-    .arguments('[projectName]')
+    .command('create <projectName>')
+    .description("Initiate a Progressive Web App")
+    .action(createProject);
+
+program
+    .command('add [feature] [projectName]')
+    .description("Turn existing site to PWA using by adding extra features")
+    .action(addFeature);
+
+program    
+    .usage('[command] [options] <projectName>')
+    .arguments('<projectName>')
     .action(createProject)
-    .parse(process.argv)
 
+program.option('-o, --overwrite',"Overwrite existing files by new files (May delete sw.js, manifest.json if already exists) (will not delete index.html).")
+program.option('-v, --version', 'Output the version number').alias('-V');
+program.parse(process.argv)
 
+// ACTIONS
 function createProject(projectName){
     if(!projectName){
         isErr = true;
@@ -65,6 +79,7 @@ function createProject(projectName){
         }
 
         writeFile(`${projectName}/index.html`,content.index(publicKey?publicKey:'Your Public Vapid Key')).then((msg) => {
+            done = true;
             if(msg == 'update'){
                 fse.readFile(`${projectName}/index.html`,'utf8')
                     .then((html)=>{
@@ -78,6 +93,15 @@ function createProject(projectName){
     })
 }
 
+function addFeature(feature,projectName){
+    if(!projectName) projectName = '.';
+    if(!feature){
+
+    }
+    console.log(feature);
+    console.log(projectName);
+}
+
 process.on('beforeExit',(code) => {
-    if(!isErr) console.log("\n"+chalk.green.bold(">>>")+chalk.bold(" Boom... Magic!! Your Progressive Web App is Ready 🚀\n"));
+    if(!isErr && done) console.log("\n"+chalk.green.bold(">>>")+chalk.bold(" Boom... Magic!! Your Progressive Web App is Ready 🚀\n"));
 })

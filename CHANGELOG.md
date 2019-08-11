@@ -54,3 +54,7 @@ Service worker does not exist warning removed
 - Bug Fixes
 - Documentation cleanup
 - Unnecessary code removed from Push API
+
+## 2.3.0 - 2.9.0 [Unpublished Internal Releases]
+- Wrote major code for v3.0.0
+- Added other commands like 'create', 'add'
