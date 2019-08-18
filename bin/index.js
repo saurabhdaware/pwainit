@@ -6,7 +6,7 @@ const fse = require('fs-extra');
 const inquirer = require('inquirer');
 const Content = require('../lib/content.js');
 const logos = require('../lib/logos.js')
-const {writeFile, getQuestions, setupBackend} = require('../lib/helper_functions.js');
+const {writeFile, getCreateQuestions,getAddQuestions , setupBackend} = require('../lib/helper_functions.js');
 const chalk = require('chalk');
 
 let isErr = false;
@@ -21,17 +21,19 @@ program
     .action(createProject);
 
 program
-    .command('add [feature] [projectName]')
-    .description("Turn existing site to PWA using by adding extra features")
-    .action(addFeature);
+    .command('add [features...]')
+    .alias('makepwa')
+    .description("Turn existing site to PWA")
+    .arguments('Features: manifest, sw, pushapi')
+    .action(addFeature)
 
 program    
-    .usage('[command] [options] <projectName>')
+    .usage('<command> [options]')
     .arguments('<projectName>')
     .action(createProject)
-
-program.option('-o, --overwrite',"Overwrite existing files by new files (May delete sw.js, manifest.json if already exists) (will not delete index.html).")
-program.option('-v, --version', 'Output the version number').alias('-V');
+    
+    
+program.option('-o, --overwrite',"overwrite files if exist.")
 program.parse(process.argv)
 
 // ACTIONS
@@ -42,7 +44,7 @@ function createProject(projectName){
         return;
     }
 
-    inquirer.prompt(getQuestions(projectName)).then(async (ans)=>{
+    inquirer.prompt(getCreateQuestions(projectName)).then(async (ans)=>{
         if(ans.samedir == false){ // If user selects 'No' when asked for 'Are you sure you want to init in same directory'
             isErr = true;
             console.log("Terminating process..");
@@ -51,16 +53,16 @@ function createProject(projectName){
 
         const content = new Content(projectName,ans); // Content class comes from ./lib/content.js
         console.log("\n"+chalk.bold.blue(".::") + " Your Progressive Web App is getting ready "+chalk.bold.blue("::."));
-        
+
         // Main stuff goes here
         writeFile(`${projectName}/assets/logo-192.png`,logos.logo192, 'base64',program.overwrite);
         writeFile(`${projectName}/assets/logo-512.png`,logos.logo512, 'base64',program.overwrite);
     
-        if(ans.features.includes('Manifest')){ 
+        if(ans.features.includes('manifest')){
             writeFile(`${projectName}/manifest.json`,content.manifest(),'',program.overwrite);
         }
 
-        if(ans.features.includes('Service Worker')){
+        if(ans.features.includes('sw')){
             writeFile(`${projectName}/sw.js`,content.serviceWorker(),'',program.overwrite);
         }
 
@@ -88,18 +90,76 @@ function createProject(projectName){
                     .then(() => console.log(`.....Updated ${projectName}/index.html`))
             }
         })
-       
 
     })
 }
 
-function addFeature(feature,projectName){
-    if(!projectName) projectName = '.';
-    if(!feature){
+/*
+@param {feature} : answers from inquirer prompts.
+FUNCTION addFeature(features):
+    Check if features are valid
+    Check if index.html exists.. it doesnt? return 'error' saying could not find index.html.. if you meant to create a PWA please use command 'pwainit create appname'
+    Only manifest -> done
+    Only service worker -> done
+    Only PushAPI -> Find sw.js - exists? cool just append pushapi code and done : doesnt exist? ask user where it does
+*/
 
+function addFeature(features){
+    let projectName = '.';
+
+    if(features.find(feature => feature !== 'sw' && feature !== 'manifest' && feature !== 'pushapi')){ // If feature has value anything other than pushapi manifest and sw then throw error
+        console.log(`${chalk.red("Err:")} Possible values of features are 'manifest', 'pushapi, 'sw' other values are not acceptable`);
+        return;
     }
-    console.log(feature);
-    console.log(projectName);
+
+    if(!fse.existsSync(`${projectName}/index.html`)){
+        console.log(`${chalk.red("Err:")} Could not find '${projectName}/index' file\n\nMake sure you are in your project directory and run the command again\n\nIf you meant to create a PWA please try again with command ${chalk.bold.green('pwainit create <appname>')}\n`);
+        return;
+    }
+
+    
+    inquirer.prompt(getAddQuestions(features))
+        .then(async (ans) => {
+            ans.features = (features.length == 0)?ans.features:features; // Set the features from command line arguments if exist or set them from the inquirer answers
+        
+            const content = new Content(projectName,ans);
+
+            if(ans.features.includes('manifest')){
+                if(ans.overwriteManifest == false){ // We have to check specifically false because the value be undefined when manifest is not present so just if(!ans.overwriteManifest) wont work
+                    console.log(`War: Skipping './manifest.json'`);
+                }else{
+                    // Create manifest.json and write the content and also add manifest link tag in html head
+                    writeFile(`${projectName}/manifest.json`,content.manifest(),'',true);
+                }
+            }
+
+            if(ans.features.includes('sw')){
+                if(ans.overwriteSW == false){
+                    console.log("War: Skipping './sw.js'");
+                }else{
+                    // Create sw.js and write the content and also add service worker register code in index.html
+                    writeFile(`${projectName}/sw.js`,content.serviceWorker(),'',true);
+                }
+            }
+
+            // When PushAPI is selected and Service worker is not selected, we check for existing sw.js if not found we ask user the name of file
+            if(ans.features.includes('pushapi') && !ans.features.includes('sw')){
+                const swFileName = ans.swFileName || 'sw.js'
+                const pathToSW = projectName + '/' + swFileName;
+
+                if(!fse.existsSync(pathToSW)){
+                    console.log(chalk.bold.red(`Err: Failed to write pushapi code in service worker.\nFile ${projectName}/${swFileName} not found.`))
+                }else{
+                    // Append pushAPI code in existing service worker.
+                    fse.appendFile(pathToSW,content.swPushAPI,'utf8')
+                        .then(() => console.log(`.....Updated ${pathToSW}`));
+
+                    console.log("Appending PushAPI code in service worker");
+                }
+            }
+
+            console.log(ans);
+        })
 }
 
 process.on('beforeExit',(code) => {
