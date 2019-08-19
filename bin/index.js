@@ -29,8 +29,11 @@ program
 
 program    
     .usage('<command> [options]')
-    .arguments('<projectName>')
-    .action(createProject)
+    .action(() => {
+        console.log(chalk.red(">>>")+" Unknown command\n");
+        console.log(`${chalk.yellow('pwainit create <projectName>')} to create project`);
+        console.log(`${chalk.yellow('pwainit add')} to add PWA features into existing website\n`);
+    })
     
     
 program.option('-o, --overwrite',"overwrite files if exist.")
@@ -40,7 +43,18 @@ program.parse(process.argv)
 function createProject(projectName){
     if(!projectName){
         isErr = true;
-        console.log("Err: Please enter project name (E.g 'pwainit coolproject' )");
+        console.log("Err: Please enter project name (E.g 'pwainit create coolproject' )");
+        return;
+    }
+
+    if(projectName == '.'){ // This makes 'pwainit create .' equivalent to 'pwainit add'
+        addFeature([]);
+        return;
+    }
+
+    if(fse.existsSync(projectName)){
+        console.log(chalk.red("\n>>>") + ` Err: Directory ${projectName} already exists.`);
+        console.log(chalk.blue(">>>") + ` If you want to add PWA to existing website try ${chalk.yellow("pwainit add")} inside the project folder\n`);
         return;
     }
 
@@ -114,7 +128,7 @@ function addFeature(features){
     }
 
     if(!fse.existsSync(`${projectName}/index.html`)){
-        console.log(`${chalk.red("Err:")} Could not find '${projectName}/index' file\n\nMake sure you are in your project directory and run the command again\n\nIf you meant to create a PWA please try again with command ${chalk.bold.green('pwainit create <appname>')}\n`);
+        console.log(`${chalk.red("Err:")} Could not find '${projectName}/index' file\n\nMake sure you are in your project directory and run the command again\n\nIf you meant to create a PWA please try again with command ${chalk.bold.green('pwainit create <projectName>')}\n`);
         return;
     }
 
