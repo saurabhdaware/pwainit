@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 'use strict'
 const program = require('commander');
-const configs = require('../package.json')
-const Action = require('../lib/action.js')
+const chalk = require('chalk');
+const configs = require('../package.json');
+const Action = require('../lib/action.js');
 const action = new Action();
 
 // COMMANDS
