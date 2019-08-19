@@ -80,16 +80,17 @@ function createProject(projectName){
             }
         }
 
-        writeFile(`${projectName}/index.html`,content.index(publicKey?publicKey:'Your Public Vapid Key')).then((msg) => {
-            done = true;
-            if(msg == 'update'){
-                fse.readFile(`${projectName}/index.html`,'utf8')
-                    .then((html)=>{
-                        return fse.outputFile(`${projectName}/index.html`,content.updatedIndexContent(html,publicKey?publicKey:'Your Public Vapid Key'));
-                    })
-                    .then(() => console.log(`.....Updated ${projectName}/index.html`))
-            }
-        })
+        writeFile(`${projectName}/index.html`,content.index(publicKey?publicKey:'Your Public Vapid Key'))
+            .then((msg) => {
+                done = true;
+                if(msg == 'update'){
+                    fse.readFile(`${projectName}/index.html`,'utf8')
+                        .then((html)=>{
+                            return fse.outputFile(`${projectName}/index.html`,content.updatedIndexContent(html,publicKey?publicKey:'Your Public Vapid Key'));
+                        })
+                        .then(() => console.log(`.....Updated ${projectName}/index.html`))
+                }
+            })
 
     })
 }
@@ -148,7 +149,7 @@ function addFeature(features){
                 const pathToSW = projectName + '/' + swFileName;
 
                 if(!fse.existsSync(pathToSW)){
-                    console.log(chalk.bold.red(`Err: Failed to write pushapi code in service worker.\nFile ${projectName}/${swFileName} not found.`))
+                    console.log(chalk.bold.red(`Err: Failed to write pushapi code in service worker.\nFile ${projectName}/${swFileName} not found.\nIf you dont have service worker please run : ${chalk.bold.white('"pwainit add sw pushapi"')} in your project`))
                 }else{
                     // Append pushAPI code in existing service worker.
                     fse.appendFile(pathToSW,content.swPushAPI,'utf8')
@@ -158,7 +159,32 @@ function addFeature(features){
                 }
             }
 
-            console.log(ans);
+            let publicKey = '';
+
+            if(ans.installBackend){
+                try{
+                    publicKey = await setupBackend(projectName,content);
+                }catch(err){
+                    isErr = true;
+                    console.log(chalk.red("Error occured while setting backend"));
+                    console.log(chalk.bold.red("Make sure you are connected to internet"));
+                    console.log("\n\nError log:"+err+"\n");
+                    console.log(chalk.bold.green(">>>")+chalk.bold(" Initiating without backend\n"));
+                }
+            }
+
+            writeFile(`${projectName}/index.html`,content.index(publicKey?publicKey:'Your Public Vapid Key'))
+                .then((msg) => {
+                    done = true;
+                    if(msg == 'update'){
+                        fse.readFile(`${projectName}/index.html`,'utf8')
+                            .then((html)=>{
+                                return fse.outputFile(`${projectName}/index.html`,content.updatedIndexContent(html,publicKey?publicKey:'Your Public Vapid Key'));
+                            })
+                            .then(() => console.log(`.....Updated ${projectName}/index.html`))
+                    }
+                })
+
         })
 }
 
