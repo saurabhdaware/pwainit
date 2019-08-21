@@ -3,8 +3,7 @@
 const program = require('commander');
 const chalk = require('chalk');
 const configs = require('../package.json');
-const Action = require('../lib/action.js');
-const action = new Action();
+const action = require('../lib/action.js');
 
 // COMMANDS
 program.version(configs.version)
@@ -21,7 +20,7 @@ program
     .arguments('Features: manifest, sw, pushapi')
     .action(action.addFeature)
 
-program    
+program
     .usage('<command> [options]')
     .action(() => {
         console.log(chalk.red(">>>")+" Unknown command\n");
