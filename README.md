@@ -5,16 +5,16 @@ PWAinit lets you intialize your PWA development process without writing basic se
 #### Read documentation here : [https://saurabhdaware.github.io/pwainit](https://saurabhdaware.github.io/pwainit)
 
 ----
-##Install
+## Install
 ```
 npm install -g pwainit
 ```
-##Create new project
+## Create new project
 ```
 pwainit create helloworld
 ```
 
-###Turn existing site to PWA
+### Turn existing site to PWA
 ```
 cd existingWebsite
 pwainit add
