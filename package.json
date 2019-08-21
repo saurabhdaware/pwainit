@@ -4,7 +4,7 @@
   "description": "Turn your existing website to Progressive Web App or Initiate PWA project using just one command. 'npm i -g pwainit' to install pwainit and get started.",
   "main": "bin/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "dev": "node bin/index.js"
   },
   "repository": {
@@ -34,5 +34,8 @@
     "fs-extra": "^8.0.1",
     "inquirer": "^6.3.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.0"
+  }
 }
