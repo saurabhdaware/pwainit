@@ -58,3 +58,14 @@ Service worker does not exist warning removed
 ## 2.3.0 - 2.9.0 [Unpublished Internal Releases]
 - Wrote major code for v3.0.0
 - Added other commands like 'create', 'add'
+
+## 3.0.0
+- Changed `pwainit <projectName>` to `pwainit create <projectName>`
+- Added command `pwainit add` to turn existing site to PWA
+- `pwainit add` also allows you to add PushAPI to existing service worker
+- Added unit tests (mocha/chai)
+- Zero configurations are needed to run PushAPI code when initialized with the backend.
+- Integrated [github.com/saurabhdaware/pwainit-node-pushapi](https://github.com/saurabhdaware/pwainit-node-pushapi) into the main project
+- Generating publicVapidKeys when pushAPI backend is initialized.
+- Minor bug fixes.
+- New documentations [https://saurabhdaware.github.io/pwainit](https://saurabhdaware.github.io/pwainit)

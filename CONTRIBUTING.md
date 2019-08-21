@@ -2,7 +2,7 @@
 - Fork the project using fork button in the top right corner
 - Clone the project to your device using `git clone https://github.com/{yourUsername}/pwainit.git`
 - Type `npm link` to install the content in your global directory. (Your directory will be linked to your global node folder which means if you change anything in the directory it will change inside the global directory as well)
-- Type `pwainit <project_name>` to test your code. 
+- Type `pwainit create <project_name>` to test your code. 
 
 
 ## Directory Structure
@@ -11,6 +11,9 @@ There are two important folders that you should care about `lib` and `bin`
 - lib
     -> content.js // Contains code that is written inside file after pwainit
     -> logos.js // base64 of assets
+    -> action.js // actions that run when command is executed
+    -> helper_functions.js // some helper functions like writeFile, getQuestions
+    -> pushapi-backend/ // Backend code of pushapi
 - bin
     -> index.js // Main file 
 ```
@@ -27,5 +30,6 @@ There are two important folders that you should care about `lib` and `bin`
 
 ## Coding Guidelines
 - Please write comments wherever necessary.
+- Write unit tests wherever possible.
 - If you create a new file that exports various functions, put it inside `lib` folder
 - Please write proper commit messages explaining your changes clearly.
