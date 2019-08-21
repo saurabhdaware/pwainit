@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <meta name="description" content="Turn your existing website to Progressive Web App or Initiate PWA project using single command!!. 'npm i -g pwainit' to install pwainit and get started">
+        <meta name="keywords" content="pwainit, pwa, progressive-web-app, npm, initiate-pwa, create-pwa, create progressive-web-app" >
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="author" content="saurabhdaware" />
+        <meta name="copyright" content="saurabhdaware/pwainit" />
+        <meta name="robots" content="follow"/>
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="PWAinit">
+        <meta property="og:url" content="https://saurabhdaware.github.io/pwainit">
+        <meta property="og:image:secure_url" itemprop="image" content="https://res.cloudinary.com/saurabhdaware/image/upload/v1557861561/saurabhdaware.in/projects/pwainit-portfolio.png">
+        <meta property="og:image" itemprop="image" content="https://res.cloudinary.com/saurabhdaware/image/upload/v1557861561/saurabhdaware.in/projects/pwainit-portfolio.png">
+        <meta property="og:image:width" content="600" />
+        <meta property="og:image:height" content="337" />
+        <meta property="og:image:alt" content="OG image of docs" />
+        <meta property="og:description" content="Turn your existing website to Progressive Web App or Initiate PWA project using single command!!. 'npm i -g pwainit' to install pwainit and get started">
+        <meta property="og:site_name" content="docs">
+        <meta name="fragment" content="!">
+        <link rel=icon sizes=192x192 href="assets/logo-192.png">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans|Fira+Sans+Condensed|Roboto+Condensed:700&display=swap" rel="stylesheet">
+        <meta name="theme-color" content="#151515" />
+        <title>PWAinit | Create Progressive Web Apps or PWAs using single command 'pwainit create helloworld' to get started</title>
+        <link rel="manifest" href="manifest.json">
+        <style>
+            :root{
+                --primary-color:#032f62;
+                --secondary-color:#eee;
+                --third-color:#fff;
+                --fourth-color:#151515;
+                --links:#09f;
+                --font-content:'Josefin Sans', sans-serif;
+                --font-headline: 'Roboto Condensed', sans-serif;
+                --font-color-one:#666;
+            }
+            a{text-decoration:none;}
+            a.link{color:var(--links)}
+            html,body{
+                margin:0px;padding:0px;
+                width:100%;
+            }
+            button{
+                border:0px;
+                background-color:transparent;
+            }
+            *{outline:none;}
+            body{
+                font-family:var(--font-content);
+            }
+            h1,h2,h3{
+                color:#151515;
+                font-family:var(--font-headline);
+            }
+            h1::before{
+                content:'#';
+                color:#bbb;
+                margin-right:2px;
+            }
+            h2{
+                font-size:17pt;
+                color:#222;
+            }
+            h2::before{
+                content:'##';
+                color:#ddd;
+                margin-right:3px;
+                margin-left:5px;
+            }
+            p{
+                font-size:12pt;
+                color:var(--font-color-one);
+                font-family: 'Fira Sans Condensed', sans-serif;
+                /* opacity:.7; */
+            }
+            p::before{
+                content:' ';
+                /* margin-right:30px; */
+            }
+            h1 + div[class$='-childs']{
+                padding-left:40px;
+                border-left:.5px solid #15151533;
+            }
+            .container{
+                display:flex;
+                padding-top:60px;
+                width:100%;
+            }
+            .menu{
+                position:fixed;
+                top:0;right:0;
+                padding-top:100px;
+                height:100%;
+                z-index:100;
+                border-right:1px solid #e5e5e5;
+                /* display:none; */
+            }
+            .menu > .menu-item{
+                display:block;
+                padding:10px 20px;
+                color:var(--fourth-color);
+                font-family:var(--font-headline);
+                font-size:14pt;
+            }
+            .menu > .menu-item.h2{
+                padding-left:30px;
+                color:#999;
+                font-size:13pt;
+            }
+            .menu-placeholder, .menu{
+                width:340px;
+                background-color:var(--secondary-color);
+                color:var(--secondary-color);
+            }
+            .menu-placeholder{
+                background:#fff;
+                width:600px;
+
+            }
+            nav{
+                background-color:var(--fourth-color);
+                position:fixed;
+                top:0;left:0;
+                padding:20px 30px;
+                box-sizing: border-box;
+                width:100% !important;
+                z-index:999;
+            }
+            nav > .brand{
+                font-weight:bold;
+                color:#aaa;
+                font-size:20pt;
+            }
+            nav > .github-logo{
+                color:#999;
+                margin:0px 20px;
+                font-size:16pt;
+                transition:all .5s ease;
+            }
+            .right-icon{
+                float:right;
+                z-index:100;
+            }
+            nav > .github-logo:hover{
+                color:#ddd;
+                transition:all .5s ease;
+            }
+            .large{
+                font-size:17pt;
+            }
+            .xlarge{
+                font-size:20pt;
+            }
+            .version{
+                color:#bbb;
+                opacity:.5;
+            }
+            .main-content{
+                padding:50px;
+                box-sizing: border-box;
+            }
+            .shadow {
+                -webkit-box-shadow: 1px 3px 5px 4px #ccc;
+                -moz-box-shadow:    1px 3px 5px 4px #ccc;
+                box-shadow:         1px 3px 5px 4px #ccc;
+            }
+            .hash{
+                color:#bbb;
+                margin-right:2px;
+            }
+            .fa.fa-bars,.fa-close{
+                color:#999;
+            }
+            .menu-icon{
+                position:absolute;top:0px;right:0px;
+                font-size:12pt;
+                padding:20px 20px;
+            }
+            /* typewriter */
+            .typewrite{
+                color:#555;font-size:15pt;
+            }
+            .typewrite > .wrap { padding-right:2px;border-right: 0.08em solid #fff}
+            .show-mob{display:none;}
+            code{
+                background-color:var(--fourth-color);
+                color:var(--secondary-color);
+                display:block;
+                padding:15px 20px;
+                font-size:12pt;
+                border-radius:4px;
+                margin-top:10px;
+            }
+            code > span{
+                margin:6px 0px;
+            }
+            code.bash  .fa-terminal{
+                opacity:.3;
+            }
+            .show-mob{
+                display:none !important;
+            }
+            @media (max-width:768px){
+                .menu-placeholder{
+                    display:none;
+                }
+                .menu{
+                    right:-100%;
+                    transition:all .5s ease;
+                    width:250px;
+                    -webkit-box-shadow: 1px 3px 5px 4px #ccc;
+                    -moz-box-shadow:    1px 3px 5px 4px #ccc;
+                    box-shadow:         1px 3px 5px 4px #ccc;
+                }
+                .menu > .menu-item{
+                    font-size:12pt;
+                }
+                .menu > .menu-item.h2{
+                    font-size:10pt;
+                }
+                .hide-mob{
+                    display:none;
+                }
+                .show-mob{
+                    display:inline !important;
+                }
+                nav{
+                    padding:20px 10px;
+                }
+                nav > .brand{
+                    font-size:14pt;
+                }
+                .typewrite{
+                    font-size:11pt;
+                }
+                .main-content{
+                    padding:50px 26px;
+                }
+                .menu.show{
+                    right:0px;
+                    transition:all .5s ease;
+                }
+                h1 + div[class$='-childs']{
+                    padding-left:0px;
+                    border-left:none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <span class="brand"> 
+                <span class="fa fa-terminal"></span> <span style="color:#ddd;">PWA</span>init 
+                <span>
+                    <a class="typewrite" data-period="2000" data-type='["create helloworld", "add"]'>
+                    <span class="wrap"></span>
+                    </a>
+                </span>
+            
+            </span>
+            <a title="download zip" class="github-logo hide-mob right-icon" href="https://github.com/saurabhdaware/pwainit/archive/master.zip" target="_blank"><span class="fa fa-download large"></span></a>
+            <a title="View code on github" class="github-logo hide-mob right-icon" href="https://github.com/saurabhdaware/pwainit" target="_blank"><span class="fa fa-github large"></span></a>
+            <a title="Fork project" class="github-logo hide-mob right-icon" href="https://github.com/saurabhdaware/pwainit/fork" target="_blank"><span class="fa fa-code-fork large"></span></a>
+            <button class="menu-icon show-mob right-icon" onclick="toggleMenu(this)"><span class="fa fa-bars"></span></button>
+        </nav>
+        <div class="menu">
+            <div class="show-mob menu-item" style="position:absolute;top:60px;right:10px">
+                <a style="color:#111;margin:0px 10px;" href="https://github.com/saurabhdaware/pwainit"><span class="fa fa-github large"></span></a>
+                <a style="color:#111;margin:0px 10px;" href="https://github.com/saurabhdaware/pwainit/fork"><span class="fa fa-code-fork large"></span></a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="main-content">
+                <!-- Main content goes here -->
+                <span class="version xlarge fade"> <b>v3.x.x</b></span>
+                <h1>Introduction</h1>
+                <p>PWAinit is a command line tool for rapid PWA development. You can use it to create a new PWA project with boilerplate for manifest.json, sw.js & the index.html.</p>
+                <p>Using PWAinit you can also turn existing website to Progressive Web App by adding the PWA features. Currently PWAinit supports features like WebApp Manifest, Service Worker, PushAPI (frontend and backend)</p>
+                Note: The documentations are written for v3.0.0+ and it is highly recommended to update your pwainit to latest version since some new features were added in this version ('npm update -g pwainit' to update the package).
+                <br><br><br>
+
+                <h1>Installation</h1>
+                <p>
+                    Make sure you have <a class="link" target="_blank" href="https://nodejs.org">NodeJS</a> and NPM (usually comes with nodejs) installed in your system. You can check installation using 'node -v' and 'npm -v' commands. <br>Type following command in your terminal:
+                    <code class="bash"><span class="fa fa-terminal"></span> npm install -g pwainit</code>
+                </p>
+                <br><br><br>
+    
+                <h1>Usage</h1>
+                <div class="usage-childs">
+                    <h2>Initiate Project</h2>
+                    <code class="bash"><span class="fa fa-terminal"></span> pwainit create &lt;projectName&gt;</code>
+                    <br><br>
+    
+                    <h2>Turn existing website to PWA</h2>
+                    <code class="bash">
+                        <span class="fa fa-terminal"></span> cd existingWebsite<br>
+                        <span class="fa fa-terminal"></span> pwainit add
+                    </code>
+                    <br><br>
+    
+                    <h2>Run PWA</h2>
+                    <p>
+                        Service Workers require https protocol or localhost to execute thus running index.html over file:// will not work. To serve files over localhost you can follow below commands.
+                        <code class="bash">
+                            <span class="fa fa-terminal"></span> npm install -g serve<br>
+                            <span class="fa fa-terminal"></span> serve &lt;projectDirectory&gt;
+                        </code><br><br>
+                        If you've installed PushAPI with backend you will have to run the backend first. To do that, run:
+                        <code class="bash">
+                            <span class="fa fa-terminal"></span> cd &lt;projectDirectory&gt;/pushapi-backend<br>
+                            <span class="fa fa-terminal"></span> node index.js
+                        </code><br><br>
+                    </p>
+                    <br><br><br>
+                </div>
+
+                <h1>Configurations</h1>
+                <div class="configurations-childs">
+                    <h2>Manifest</h2>
+                    <p>Does not require any additional configurations. </p>
+                    <br><br>
+    
+                    <h2>Service Worker</h2>
+                    <p>Does not require any additional configurations though you can add the paths of files you want to cache in variable urlsToCache[] in sw.js file. </p>
+                    <br><br>
+    
+                    <h2>PushAPI</h2>
+                    <p><b>If you have installed it with the backend code</b> then it does not need any configurations just run the backend code and you're good to go. <br><b>If you have not installed backend</b> then you will have to set your PushAPI backend public vapid key to the publicVapidKey variable in index.html. <br><br>Here's example to generate public vapid : <a class="link" target="_blank" href="https://github.com/saurabhdaware/pwainit-node-pushapi">github.com/saurabhdaware/pwainit-node-pushapi</a></p>
+                </div>
+                <br><br><br>
+                <h1>Changelog</h1>
+                <p>Checkout <a class="link" href="https://github.com/saurabhdaware/pwainit/blob/master/CHANGELOG.md">CHANGELOG.md</a> for Release History</a></p>
+                <br><br><br>
+
+                <h1>Contributing</h1>
+                <p>Interested in working on this project? <a href="https://github.com/saurabhdaware/pwainit/fork" target="_blank" class="button" style="background-color:#ddd;color:#111;font-size:9pt;padding:4px 10px;border:.3px solid #999;"><span class="fa fa-code-fork"></span> Fork</a> and Checkout <a target="_blank" class="link" href="https://github.com/saurabhdaware/pwainit/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> for instructions to contribute</p>
+                <br><br><br>
+                <h1>Articles</h1>
+                <ul style="color:var(--font-color-one);font-family: 'Fira Sans Condensed', sans-serif;">
+                    <li><a target="_blank" class="link" href="https://medium.com/@saurabhdaware/turning-your-existing-website-to-pwa-using-pwainit-8c56c42abc4e">Turn Existing Website to PWA using PWAinit</a> ~ Saurabh Daware</li>
+                    <li><a target="_blank" class="link" href="https://medium.com/npm-inc/npm-weekly-204-introducing-npm-6-10-0-join-us-at-assert-js-plus-13-great-npm-tips-3740c13f3e43#1830">NPM Weekly blog #204</a> ~ NPM inc</li>
+                </ul>
+                <br>
+                <p>Wrote an article or created a video about PWAinit? List it here by editing <a class="link" href="https://github.com/saurabhdaware/pwainit/blob/master/docs/index.html">Documenation Code</a></p>
+                <br>
+                <p>Thank you for checking out PWAinit! A <span class="fa fa-star"></span> for the <a href="https://github.com/saurabhdaware/pwainit" target="_blank" class="link">repository</a> would be highly appreciated 🚀!</p>
+
+            </div>
+            <div class="menu-placeholder"></div>
+        </div>
+
+        <script>
+        const headlines = document.querySelectorAll('h1');
+        headlines.forEach(headline => {
+            headline.id = headline.innerText.toLowerCase().replace(/ /g,'-');
+            document.querySelector('.menu').innerHTML += `<a class="menu-item h1" href="#${headline.id}">${headline.innerText}</a>` 
+
+            const subHeadlines = headline.nextElementSibling.querySelectorAll('h2');
+            // const subHeadlines = headline.querySelectorAll('h2');
+            subHeadlines.forEach(subhead => {
+                console.log(subhead);
+                subhead.id = subhead.innerText.toLowerCase().replace(/ /g,'-');
+                document.querySelector('.menu').innerHTML += `<a class="menu-item h2" href="#${subhead.id}">${subhead.innerText}</a>`;
+            })
+        })
+
+        function toggleMenu(){
+            const el = document.querySelector('button.menu-icon');
+            const menu = document.querySelector('.menu');
+            el.innerHTML = `<span class="fa fa-${(menu.classList.contains('show'))?'bars':'close'}"><span>`
+            menu.classList.toggle('show');
+        }
+
+        document.querySelectorAll('.menu > .menu-item').forEach(item => item.addEventListener('click',toggleMenu));
+
+
+        let anchorlinks = document.querySelectorAll('a[href^="#"]')
+
+        for (let item of anchorlinks) { // relitere 
+            item.addEventListener('click', (e)=> {
+                let hashval = item.getAttribute('href')
+                let target = document.querySelector(hashval)
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block:"center"
+                })
+                history.pushState(null, null, hashval)
+                e.preventDefault()
+            })
+        }
+
+
+        const TxtType = function(el, toRotate, period) {
+            this.toRotate = toRotate;
+            this.el = el;
+            this.loopNum = 0;
+            this.period = parseInt(period, 10) || 2000;
+            this.txt = '';
+            this.tick();
+            this.isDeleting = false;
+        };
+
+        TxtType.prototype.tick = function() {
+            var i = this.loopNum % this.toRotate.length;
+            var fullTxt = this.toRotate[i];
+
+            if (this.isDeleting) {
+                this.txt = fullTxt.substring(0, this.txt.length - 1);
+            } else {
+                this.txt = fullTxt.substring(0, this.txt.length + 1);
+            }
+
+            this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+            var that = this;
+            var delta = 200 - Math.random() * 100;
+
+            if (this.isDeleting) { delta /= 2; }
+
+            if (!this.isDeleting && this.txt === fullTxt) {
+                delta = this.period;
+                this.isDeleting = true;
+            } else if (this.isDeleting && this.txt === '') {
+                this.isDeleting = false;
+                this.loopNum++;
+                delta = 500;
+            }
+
+            setTimeout(function() {
+                that.tick();
+            }, delta);
+        };
+
+        window.onload = function() {
+            var elements = document.getElementsByClassName('typewrite');
+            for (var i=0; i<elements.length; i++) {
+                var toRotate = elements[i].getAttribute('data-type');
+                var period = elements[i].getAttribute('data-period');
+                if (toRotate) {
+                    new TxtType(elements[i], JSON.parse(toRotate), period);
+                }
+            }
+        };
+        </script>
+    </body>
+</html>
