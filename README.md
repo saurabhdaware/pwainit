@@ -4,6 +4,11 @@ Initiate PWA project and get boilerplate code for Progressive Web App features o
 PWAinit lets you intialize your PWA development process without writing basic service worker, manifest, push api and index.html code.
 #### Read documentation here : [https://saurabhdaware.github.io/pwainit](https://saurabhdaware.github.io/pwainit)
 
+[![npm Package](https://img.shields.io/npm/v/pwainit.svg)](https://www.npmjs.org/package/pwainit) [![downloads](https://img.shields.io/npm/dt/pwainit.svg)](http://npm-stat.com/charts.html?package=pwainit)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/saurabhdaware/pwainit/issues) [![License](https://img.shields.io/npm/l/pwainit.svg)](https://github.com/saurabhdaware/pwainit/blob/master/LICENSE)
+
+[![https://nodei.co/npm/pwainit.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/pwainit.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/pwainit)
+
 ----
 ## Install
 ```

@@ -5,7 +5,8 @@
   "main": "bin/index.js",
   "scripts": {
     "test": "mocha",
-    "dev": "node bin/index.js"
+    "dev": "node bin/index.js",
+    "prepublishOnly":"npm test"
   },
   "repository": {
     "type": "git",
